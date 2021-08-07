@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  dsjms-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dsjms-api
+    networks:
+      - dsjms-network
+    ports:
+      - 8080:8080
+    depends_on:
+      - dsjms-postgre
+  dsjms-postgre:
+    image: postgres:9.6-alpine
+    container_name: dsjms-postgre
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pgadmin
+      POSTGRES_DB: dsjms_db
+    networks:
+      - dsjms-network
+networks:
+  dsjms-network:
+    driver: bridge
